@@ -880,6 +880,7 @@ func (h *Handler) reverseProxy(rw http.ResponseWriter, req *http.Request, origRe
 			response: res,
 			start:    start,
 			logger:   logger,
+			dialInfo: &di,
 		}
 		ctx := origReq.Context()
 		ctx = context.WithValue(ctx, proxyHandleResponseContextCtxKey, hrc)
@@ -1384,6 +1385,8 @@ type handleResponseContext struct {
 	// routes like copy_response may inherit some config
 	// options and have access to handler methods.
 	handler *Handler
+
+	dialInfo *DialInfo
 
 	// response is the actual response received from the proxy
 	// roundtrip, to potentially be copied if a copy_response
